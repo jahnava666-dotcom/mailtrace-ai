@@ -6,13 +6,15 @@ interface StatCardsProps {
   threatsCount?: number;
   highRiskCount?: number;
   criticalCount?: number;
+  isRealtimeLive?: boolean;
 }
 
 export const StatCards: React.FC<StatCardsProps> = ({
   analyzedCount = 128,
   threatsCount = 34,
   highRiskCount = 17,
-  criticalCount = 8
+  criticalCount = 8,
+  isRealtimeLive = false
 }) => {
   const cards = [
     {

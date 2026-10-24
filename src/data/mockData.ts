@@ -242,7 +242,7 @@ export const CASE_1024: EmailInvestigationCase = {
       node: 'inbound-sec-gateway.corp.internal',
       ip: '142.250.180.26',
       status: 'alert',
-      details: 'Delivered to corporate quarantine. MailTrace AI triage hooked and forensic snapshot initiated.'
+      details: 'Delivered to corporate quarantine. TRACE-X triage hooked and forensic snapshot initiated.'
     }
   ],
   threatIntel: [
@@ -730,7 +730,7 @@ export const MOCK_REPORTS: GeneratedReport[] = [
     threatLevel: 'Critical Threat',
     riskScore: 92,
     createdAt: 'Today, 10:35:12 AM',
-    author: 'MailTrace AI Engine / Alex Carter',
+    author: 'TRACE-X Forensic Engine / Alex Carter',
     format: 'PDF',
     summary: 'Exhaustive forensic analysis of spoofed banking notification with DMARC failure, malicious ZIP payload, and Amsterdam VPS relay.'
   },
@@ -741,7 +741,7 @@ export const MOCK_REPORTS: GeneratedReport[] = [
     threatLevel: 'High Risk',
     riskScore: 67,
     createdAt: 'Yesterday, 15:00:00 PM',
-    author: 'MailTrace AI Engine / Sarah Lin',
+    author: 'TRACE-X Forensic Engine / Sarah Lin',
     format: 'PDF',
     summary: 'Analysis of unaligned ticket relay diverting users to staging credential capture site.'
   },
@@ -752,7 +752,7 @@ export const MOCK_REPORTS: GeneratedReport[] = [
     threatLevel: 'Likely Safe',
     riskScore: 21,
     createdAt: 'Yesterday, 09:30:10 AM',
-    author: 'MailTrace AI Engine / Automated Rule',
+    author: 'TRACE-X Forensic Engine / Automated Rule',
     format: 'PDF',
     summary: 'Routine verification confirming full SPF, DKIM, and DMARC alignment on outbound billing.'
   }

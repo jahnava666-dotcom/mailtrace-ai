@@ -48,6 +48,7 @@ export interface ForensicTimelineEvent {
 }
 
 export interface ThreatIntelligenceIndicator {
+  id?: string;
   indicator: string;
   type: 'Domain' | 'IP' | 'URL' | 'Attachment' | 'SHA-256';
   reputation: 'Clean' | 'Suspicious' | 'Malicious';
@@ -112,6 +113,13 @@ export interface EmailInvestigationCase {
     completed?: boolean;
   }[];
   rawHeaders: string;
+  isSimulatedDemo?: boolean;
+  geoMetadata?: {
+    provider?: string;
+    lookupTimestamp?: string;
+    confidence?: number;
+    isSimulated?: boolean;
+  };
 }
 
 export interface AssistantMessage {

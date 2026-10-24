@@ -61,11 +61,15 @@ export const AiAssistantPanel: React.FC<AiAssistantPanelProps> = ({ caseData }) 
     setIsTyping(true);
 
     try {
-      const reply = await apiClient.askAiAssistant(textToSend, caseData);
+      const chatRes = await apiClient.sendChatMessage(textToSend, `panel-${caseData.caseId}`, {
+        current_page: 'results',
+        case_id: caseData.caseId,
+        case_data: caseData
+      });
       const aiMsg: AssistantMessage = {
         id: `ai-${Date.now()}`,
         sender: 'ai',
-        text: reply,
+        text: chatRes.response,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages((prev) => [...prev, aiMsg]);
@@ -89,7 +93,7 @@ export const AiAssistantPanel: React.FC<AiAssistantPanelProps> = ({ caseData }) 
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-bold text-slate-900">AI Investigation Assistant</h2>
+              <h2 className="text-base font-bold text-slate-900">TRACE-X Assistant</h2>
               <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">
                 Context Active ({caseData.caseId})
               </span>

@@ -1,5 +1,6 @@
 {
-  "name": "sih-2",
+  "name": "trace-x",
+  "description": "TRACE-X: AI-Powered Email Threat Detection, Geolocation and Forensic Intelligence Platform",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,9 +8,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:supabase": "node --experimental-websocket scripts/diagnose-supabase.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.109.0",
     "@tailwindcss/vite": "^4.3.3",
     "autoprefixer": "^10.5.5",
     "lucide-react": "^1.43.0",

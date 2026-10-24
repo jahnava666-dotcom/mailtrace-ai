@@ -11,7 +11,7 @@ export const IocSection: React.FC<IocSectionProps> = ({ iocs, caseId }) => {
   const [copied, setCopied] = useState(false);
 
   const getFormattedIocs = () => {
-    return `# MailTrace AI Forensic IOC Export - ${caseId}
+    return `# TRACE-X Forensic IOC Export - ${caseId}
 # Generated: ${new Date().toISOString()}
 
 [DOMAINS]

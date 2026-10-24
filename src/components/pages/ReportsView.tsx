@@ -21,7 +21,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ reports, cases }) => {
   const handleDirectDownload = (rep: GeneratedReport) => {
     const targetCase = cases.find((c) => c.caseId === rep.caseId) || CASE_1024;
     const blob = new Blob([
-      `MAILTRACE AI INCIDENT REPORT - ${rep.reportId}\nCase: ${rep.caseId}\nVerdict: ${rep.threatLevel} (${rep.riskScore}/100)\nCreated: ${rep.createdAt}\nAuthor: ${rep.author}\n\nSummary:\n${rep.summary}\n`
+      `TRACE-X INCIDENT REPORT - ${rep.reportId}\nCase: ${rep.caseId}\nVerdict: ${rep.threatLevel} (${rep.riskScore}/100)\nCreated: ${rep.createdAt}\nAuthor: ${rep.author}\n\nSummary:\n${rep.summary}\n`
     ], { type: 'text/plain' });
 
     const link = document.createElement('a');

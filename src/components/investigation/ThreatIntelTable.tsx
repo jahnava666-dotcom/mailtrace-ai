@@ -49,7 +49,7 @@ export const ThreatIntelTable: React.FC<ThreatIntelTableProps> = ({ indicators }
         </div>
 
         <span className="text-[11px] font-mono text-slate-400">
-          Source: MailTrace AI Cyber Threat Feed v4.9
+          Source: TRACE-X Cyber Threat Feed v4.9
         </span>
       </div>
 

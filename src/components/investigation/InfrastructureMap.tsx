@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { InfrastructureHop } from '../../types/forensics';
-import { Globe2, Server, ShieldAlert, ArrowRight, Info, MapPin, Network } from 'lucide-react';
+import { Server, ShieldAlert, Info, MapPin, Network } from 'lucide-react';
 
 interface InfrastructureMapProps {
   hops: InfrastructureHop[];
@@ -21,8 +21,32 @@ export const InfrastructureMap: React.FC<InfrastructureMapProps> = ({
   hops,
   primaryInfrastructure
 }) => {
-  const [activeHopIndex, setActiveHopIndex] = useState(2); // Default to Relay Server (Hop 3)
-  const selectedHop = hops[activeHopIndex] || hops[0];
+  const [activeHopIndex, setActiveHopIndex] = useState(0);
+  const selectedHop = hops[activeHopIndex] || hops[0] || {
+    id: 1,
+    step: 'Node 1',
+    label: 'Primary MTA',
+    ip: primaryInfrastructure.ip,
+    country: primaryInfrastructure.country,
+    region: primaryInfrastructure.region,
+    asn: primaryInfrastructure.asn,
+    isp: primaryInfrastructure.isp,
+    hostingType: primaryInfrastructure.hosting as any,
+    status: 'suspicious',
+    timestamp: '10:32:00 UTC',
+    latency: '+0ms',
+    coordinates: primaryInfrastructure.coordinates
+  };
+
+  const hopCount = hops.length;
+  const getNodeX = (idx: number) => {
+    if (hopCount <= 1) return 400;
+    return Math.round(100 + (idx * (600 / (hopCount - 1))));
+  };
+  const getNodeY = (idx: number) => {
+    const yVals = [120, 105, 95, 115, 110];
+    return yVals[idx % yVals.length];
+  };
 
   return (
     <div className="space-y-4">
@@ -34,9 +58,14 @@ export const InfrastructureMap: React.FC<InfrastructureMapProps> = ({
           </p>
         </div>
 
-        <div className="inline-flex items-center gap-1.5 text-[11px] font-mono font-medium text-slate-500 bg-white border border-slate-200 px-2.5 py-1 rounded-lg">
-          <Network className="w-3.5 h-3.5 text-blue-600" />
-          <span>{hops.length} Network Hops Recorded</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[10px] bg-amber-50 text-amber-700 font-semibold px-2 py-1 rounded-lg border border-amber-200">
+            Telemetry: Simulated GeoIP Resolution
+          </span>
+          <div className="inline-flex items-center gap-1.5 text-[11px] font-mono font-medium text-slate-500 bg-white border border-slate-200 px-2.5 py-1 rounded-lg">
+            <Network className="w-3.5 h-3.5 text-blue-600" />
+            <span>{hops.length} Network Hops Recorded</span>
+          </div>
         </div>
       </div>
 
@@ -77,70 +106,66 @@ export const InfrastructureMap: React.FC<InfrastructureMapProps> = ({
                   strokeWidth="1.5"
                 />
 
-                {/* Animated Connection Beams between nodes */}
-                {/* Hop 1 -> Hop 2 */}
-                <path
-                  d="M 120 120 Q 220 70 280 110"
-                  stroke="#3b82f6"
-                  strokeWidth="2.5"
-                  strokeDasharray="6 4"
-                  className="opacity-70"
-                />
-                {/* Hop 2 -> Hop 3 (Malicious hop highlight) */}
-                <path
-                  d="M 280 110 Q 360 50 440 95"
-                  stroke="#ef4444"
-                  strokeWidth="3"
-                  className="opacity-90"
-                />
-                {/* Hop 3 -> Hop 4 */}
-                <path
-                  d="M 440 95 Q 520 140 600 115"
-                  stroke="#f59e0b"
-                  strokeWidth="2.5"
-                  strokeDasharray="6 4"
-                  className="opacity-70"
-                />
-                {/* Hop 4 -> Hop 5 */}
-                <path
-                  d="M 600 115 Q 660 80 720 110"
-                  stroke="#10b981"
-                  strokeWidth="2.5"
-                />
+                {/* Animated Connection Beams between hops */}
+                {hops.map((hop, idx) => {
+                  if (idx === hops.length - 1) return null;
+                  const x1 = getNodeX(idx);
+                  const y1 = getNodeY(idx);
+                  const x2 = getNodeX(idx + 1);
+                  const y2 = getNodeY(idx + 1);
+                  const midX = (x1 + x2) / 2;
+                  const midY = Math.min(y1, y2) - 30;
+                  const isMalicious = hop.status === 'malicious' || hops[idx + 1]?.status === 'malicious';
+                  const isSuspicious = hop.status === 'suspicious' || hops[idx + 1]?.status === 'suspicious';
+                  const strokeColor = isMalicious ? '#ef4444' : isSuspicious ? '#f59e0b' : '#3b82f6';
+                  return (
+                    <path
+                      key={`beam-${idx}`}
+                      d={`M ${x1} ${y1} Q ${midX} ${midY} ${x2} ${y2}`}
+                      stroke={strokeColor}
+                      strokeWidth={isMalicious ? "3" : "2.5"}
+                      strokeDasharray={isMalicious ? undefined : "6 4"}
+                      className={isMalicious ? "opacity-90" : "opacity-70"}
+                    />
+                  );
+                })}
 
-                {/* Markers */}
-                {/* Node 1: Sender */}
-                <g className="cursor-pointer" onClick={() => setActiveHopIndex(0)}>
-                  <circle cx="120" cy="120" r="7" fill="#f59e0b" />
-                  <text x="120" y="145" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="monospace">Bucharest</text>
-                </g>
-
-                {/* Node 2: Mail Server */}
-                <g className="cursor-pointer" onClick={() => setActiveHopIndex(1)}>
-                  <circle cx="280" cy="110" r="7" fill="#f59e0b" />
-                  <text x="280" y="135" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="monospace">Frankfurt</text>
-                </g>
-
-                {/* Node 3: Relay Server (Critical Amsterdam) */}
-                <g className="cursor-pointer" onClick={() => setActiveHopIndex(2)}>
-                  <circle cx="440" cy="95" r="14" fill="#ef4444" opacity="0.3" className="animate-ping-slow" />
-                  <circle cx="440" cy="95" r="9" fill="#dc2626" />
-                  <text x="440" y="75" textAnchor="middle" fill="#f87171" fontWeight="bold" fontSize="12" fontFamily="monospace">
-                    Amsterdam [Flagged]
-                  </text>
-                </g>
-
-                {/* Node 4: Cloud Proxy */}
-                <g className="cursor-pointer" onClick={() => setActiveHopIndex(3)}>
-                  <circle cx="600" cy="115" r="7" fill="#3b82f6" />
-                  <text x="600" y="140" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="monospace">San Francisco</text>
-                </g>
-
-                {/* Node 5: Corporate Mailbox */}
-                <g className="cursor-pointer" onClick={() => setActiveHopIndex(4)}>
-                  <circle cx="720" cy="110" r="8" fill="#10b981" />
-                  <text x="720" y="135" textAnchor="middle" fill="#34d399" fontSize="11" fontFamily="monospace">Gateway</text>
-                </g>
+                {/* Dynamic Hop Markers */}
+                {hops.map((hop, idx) => {
+                  const cx = getNodeX(idx);
+                  const cy = getNodeY(idx);
+                  const isSelected = idx === activeHopIndex;
+                  const isMalicious = hop.status === 'malicious';
+                  const isSuspicious = hop.status === 'suspicious';
+                  const fillColor = isMalicious ? '#dc2626' : isSuspicious ? '#f59e0b' : '#3b82f6';
+                  const textColor = isMalicious ? '#f87171' : isSuspicious ? '#fbbf24' : '#94a3b8';
+                  return (
+                    <g key={hop.id || idx} className="cursor-pointer" onClick={() => setActiveHopIndex(idx)}>
+                      {isMalicious && (
+                        <circle cx={cx} cy={cy} r="14" fill="#ef4444" opacity="0.3" className="animate-ping-slow" />
+                      )}
+                      <circle
+                        cx={cx}
+                        cy={cy}
+                        r={isSelected ? "9" : "7"}
+                        fill={fillColor}
+                        stroke={isSelected ? "#ffffff" : undefined}
+                        strokeWidth={isSelected ? "2" : undefined}
+                      />
+                      <text
+                        x={cx}
+                        y={cy + (idx % 2 === 0 ? 24 : -14)}
+                        textAnchor="middle"
+                        fill={textColor}
+                        fontWeight={isMalicious || isSelected ? "bold" : "normal"}
+                        fontSize="11"
+                        fontFamily="monospace"
+                      >
+                        {hop.label} {isMalicious ? '[Flagged]' : ''}
+                      </text>
+                    </g>
+                  );
+                })}
               </svg>
             </div>
 

@@ -68,10 +68,19 @@ export const InvestigationHeader: React.FC<InvestigationHeaderProps> = ({
           {/* Left: Case Info & Verdict */}
           <div className="lg:col-span-4 space-y-4">
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-mono text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
                   {caseId}
                 </span>
+                {caseData.isSimulatedDemo ? (
+                  <span className="text-[10px] bg-amber-50 text-amber-700 font-bold px-2 py-0.5 rounded border border-amber-200 uppercase">
+                    Simulated Demo Scenario
+                  </span>
+                ) : (
+                  <span className="text-[10px] bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded border border-emerald-200 uppercase">
+                    Live Analysis
+                  </span>
+                )}
                 <span className="text-xs text-slate-400">• {date}</span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2 tracking-tight">

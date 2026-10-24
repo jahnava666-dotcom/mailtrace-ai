@@ -61,10 +61,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted, onViewDe
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm shadow-blue-500/20">
               <Shield className="h-5 w-5" />
             </div>
-            <div>
-              <span className="text-lg font-bold text-slate-900 tracking-tight">MailTrace</span>
-              <span className="ml-1 text-xs font-bold text-blue-600 uppercase bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">
-                AI
+            <div className="flex items-center gap-1.5">
+              <span className="text-xl font-black text-slate-900 tracking-tight">TRACE-X</span>
+              <span className="text-xs font-bold text-blue-600 uppercase bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">
+                Forensics
               </span>
             </div>
           </div>
@@ -223,10 +223,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted, onViewDe
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800">MailTrace AI</span>
-            <span>—</span>
-            <span>Turn suspicious emails into evidence-backed investigations.</span>
+          <div className="flex flex-col sm:flex-row items-center gap-2">
+            <span className="font-bold text-slate-800">TRACE-X</span>
+            <span className="hidden sm:inline">—</span>
+            <span className="text-slate-600">AI-Powered Email Threat Detection, Geolocation and Forensic Intelligence Platform</span>
+            <span className="hidden md:inline font-medium text-blue-600">Detect. Trace. Investigate.</span>
           </div>
           <div>Forensic Prototype & Demonstration Platform</div>
         </div>

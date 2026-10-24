@@ -48,20 +48,36 @@ export const RecentTable: React.FC<RecentTableProps> = ({
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
-            {cases.map((c) => {
-              const isCritical = c.riskScore >= 80;
-              const isHigh = c.riskScore >= 60 && c.riskScore < 80;
+            {cases.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="px-5 py-8 text-center text-slate-400">
+                  No investigations recorded yet. Click "Analyze New Email" to start.
+                </td>
+              </tr>
+            ) : (
+              cases.map((c) => {
+                const isCritical = c.riskScore >= 80;
+                const isHigh = c.riskScore >= 60 && c.riskScore < 80;
 
-              return (
-                <tr
-                  key={c.caseId}
-                  className="hover:bg-slate-50/80 transition-colors group cursor-pointer"
-                  onClick={() => onViewCase(c)}
-                >
-                  <td className="px-5 py-4 font-mono font-bold text-slate-900 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-blue-600"></span>
-                    <span>{c.caseId}</span>
-                  </td>
+                return (
+                  <tr
+                    key={c.caseId}
+                    className="hover:bg-slate-50/80 transition-colors group cursor-pointer"
+                    onClick={() => onViewCase(c)}
+                  >
+                    <td className="px-5 py-4 font-mono font-bold text-slate-900 flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                      <span>{c.caseId}</span>
+                      {c.isSimulatedDemo ? (
+                        <span className="text-[9px] bg-slate-100 text-slate-500 font-semibold px-1 py-0.5 rounded border border-slate-200">
+                          DEMO
+                        </span>
+                      ) : (
+                        <span className="text-[9px] bg-blue-50 text-blue-700 font-semibold px-1 py-0.5 rounded border border-blue-200">
+                          LIVE
+                        </span>
+                      )}
+                    </td>
 
                   <td className="px-5 py-4">
                     <div className="font-medium text-slate-800">{c.email}</div>
@@ -109,7 +125,7 @@ export const RecentTable: React.FC<RecentTableProps> = ({
                   </td>
                 </tr>
               );
-            })}
+            }))}
           </tbody>
         </table>
       </div>

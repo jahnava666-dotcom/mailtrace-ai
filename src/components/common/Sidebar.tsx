@@ -8,13 +8,15 @@ import {
   Settings,
   HelpCircle,
   ExternalLink,
-  ChevronRight
+  ChevronRight,
+  FolderLock
 } from 'lucide-react';
 
 export type NavigationTab =
   | 'dashboard'
   | 'analyze'
   | 'investigations'
+  | 'evidence'
   | 'threat-intel'
   | 'reports'
   | 'settings';
@@ -55,6 +57,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
       badge: '4 Active',
       badgeColor: 'bg-amber-100 text-amber-800',
       description: 'Historical case records'
+    },
+    {
+      id: 'evidence' as NavigationTab,
+      label: 'Evidence Vault',
+      icon: FolderLock,
+      badge: 'SHA-256',
+      badgeColor: 'bg-emerald-100 text-emerald-800',
+      description: 'Digital evidence & custody'
     },
     {
       id: 'threat-intel' as NavigationTab,
@@ -158,7 +168,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Bottom Platform Info */}
         <div className="border-t border-slate-100 p-4 space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-500">
-            <span className="font-mono text-[11px]">MailTrace Core v2.4</span>
+            <span className="font-mono text-[11px]">TRACE-X Core v2.4</span>
             <span className="inline-flex items-center gap-1 text-[11px] text-emerald-600 font-medium">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Online
             </span>
